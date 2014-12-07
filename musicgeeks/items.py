@@ -10,5 +10,4 @@ class SongPage(Item):
   love = Field()
   who_where = Field()
   cred = Field()
-  attribution = Field()
   posted_on = Field()
