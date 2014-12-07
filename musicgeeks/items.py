@@ -1,6 +1,6 @@
-from scrapy import Field
+from scrapy import Field, Item
 
-class SongPage(scrapy.Item):
+class SongPage(Item):
   url = Field()
   page_title = Field()
   artist = Field()
