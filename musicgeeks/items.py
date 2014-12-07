@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
+from scrapy import Field
 
-# Define here the models for your scraped items
-#
-# See documentation in:
-# http://doc.scrapy.org/en/latest/topics/items.html
-
-import scrapy
-
-
-class MusicgeeksItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class SongPage(scrapy.Item):
+  url = Field()
+  page_title = Field()
+  artist = Field()
+  song_title = Field()
+  soundcloud_url = Field()
+  gif_url = Field()
+  love = Field()
+  who_where = Field()
+  cred = Field()
+  attribution = Field()
+  posted_on = Field()
