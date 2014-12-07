@@ -25,9 +25,9 @@ class SongsSpider(Spider):
 
       love_divs = response.xpath("//div[@class='post-love']/p")
       if love_divs:
-        song['love'] = love_divs[0].extract()[3:-4]
-        song['who_where'] = love_divs[1].extract()[3:-4]
-        song['cred'] = love_divs[2].extract()[3:-4]
+        song['love'] = love_divs[0].extract()[11:-4]
+        song['who_where'] = love_divs[1].extract()[21:-4]
+        song['cred'] = love_divs[2].extract()[11:-4]
 
       post_header = response.xpath("//header[@class='post-header']")
       song['page_title'] = post_header.xpath(".//h1/text()").extract()
