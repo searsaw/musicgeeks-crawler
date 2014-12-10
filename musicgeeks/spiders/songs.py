@@ -2,6 +2,7 @@
 from scrapy import Spider, log
 from scrapy.http import Request
 from musicgeeks.items import SongPage
+from dateutil import parser
 import urlparse
 
 class SongsSpider(Spider):
@@ -25,7 +26,6 @@ class SongsSpider(Spider):
 
       love_divs = response.xpath("//div[@class='post-love']/p")
       if love_divs:
-        # need logic to find correct one since none are in the same order
         for n in range(0,3):
           check = love_divs[n].extract()
           value = check.partition('<br>')[2][:-4]
@@ -36,7 +36,6 @@ class SongsSpider(Spider):
           else:
             song['love'] = value
 
-      post_header = response.xpath("//header[@class='post-header']")
-      song['page_title'] = post_header.xpath(".//h1/text()").extract()[0]
-      song['posted_on'] = post_header.xpath(".//p[@class='meta']/text()").extract()[0]
+      song['page_title'] = response.xpath("//header[@class='post-header']").xpath(".//h1/text()").extract()[0]
+      song['posted_on'] = parser.parse(response.xpath("//head/meta[@property='article:published_time']/@content").extract()[0]).strftime("%Y-%m-%d %H:%M:%S")
       return song
