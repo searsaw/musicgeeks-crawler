@@ -18,7 +18,6 @@ class SongsSpider(Spider):
         yield Request(url=url, callback=self.parseSongPage)
 
     def parseSongPage(self, response):
-      log('Creating item from %s' % response.url, level=log.INFO)
       song = SongPage()
       song['url'] = response.url
       song['soundcloud_url'] = response.xpath("//iframe/@src").extract()[0]
