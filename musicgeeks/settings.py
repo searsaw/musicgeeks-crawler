@@ -1,6 +1,8 @@
 BOT_NAME = 'musicgeeks'
 
 LOG_LEVEL = 'WARNING'
+LOG_ENABLED = True
+LOG_STDOUT = True
 
 SPIDER_MODULES = ['musicgeeks.spiders']
 NEWSPIDER_MODULE = 'musicgeeks.spiders'
