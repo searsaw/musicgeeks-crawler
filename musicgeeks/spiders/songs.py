@@ -20,16 +20,23 @@ class SongsSpider(Spider):
       log.msg('Creating item from %s' % response.url, level=log.INFO)
       song = SongPage()
       song['url'] = response.url
-      song['soundcloud_url'] = response.xpath("//iframe/@src").extract()
-      song['gif_url'] = response.xpath("//img[@class='dancing-gif']/@src").extract()
+      song['soundcloud_url'] = response.xpath("//iframe/@src").extract()[0]
+      song['gif_url'] = response.xpath("//img[@class='dancing-gif']/@src").extract()[0]
 
       love_divs = response.xpath("//div[@class='post-love']/p")
       if love_divs:
-        song['love'] = love_divs[0].extract()[11:-4]
-        song['who_where'] = love_divs[1].extract()[21:-4]
-        song['cred'] = love_divs[2].extract()[11:-4]
+        # need logic to find correct one since none are in the same order
+        for n in range(0,3):
+          check = love_divs[n].extract()
+          value = check.partition('<br>')[2][:-4]
+          if 'WHO' in check:
+            song['who_where'] = value
+          elif 'CRED' in check:
+            song['cred'] = value
+          else:
+            song['love'] = value
 
       post_header = response.xpath("//header[@class='post-header']")
-      song['page_title'] = post_header.xpath(".//h1/text()").extract()
-      song['posted_on'] = post_header.xpath(".//p[@class='meta']/text()").extract()
+      song['page_title'] = post_header.xpath(".//h1/text()").extract()[0]
+      song['posted_on'] = post_header.xpath(".//p[@class='meta']/text()").extract()[0]
       return song
