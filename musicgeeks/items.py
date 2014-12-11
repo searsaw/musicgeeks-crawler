@@ -2,6 +2,7 @@ from scrapy import Field, Item
 
 class SongPage(Item):
   url = Field()
+  slug = Field()
   page_title = Field()
   song_title = Field()
   soundcloud_url = Field()

@@ -20,6 +20,7 @@ class SongsSpider(Spider):
     def parseSongPage(self, response):
       song = SongPage()
       song['url'] = response.url
+      song['slug'] = urlparse.urlparse(response.url).path.replace('/', '')
       song['soundcloud_url'] = response.xpath("//iframe/@src").extract()[0]
       song['gif_url'] = response.xpath("//img[@class='dancing-gif']/@src").extract()[0]
 
