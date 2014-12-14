@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from scrapy import Spider, log
+from scrapy import Spider
 from scrapy.http import Request
 from musicgeeks.items import SongPage
 from dateutil import parser
