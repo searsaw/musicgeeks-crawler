@@ -3,6 +3,7 @@ from scrapy import Spider
 from scrapy.http import Request
 from musicgeeks.items import SongPage
 from dateutil import parser
+import re
 import urlparse
 
 class SongsSpider(Spider):
@@ -21,8 +22,10 @@ class SongsSpider(Spider):
       song = SongPage()
       song['url'] = response.url
       song['slug'] = urlparse.urlparse(response.url).path.replace('/', '')
-      song['soundcloud_url'] = response.xpath("//iframe/@src").extract()[0]
       song['gif_url'] = response.xpath("//img[@class='dancing-gif']/@src").extract()[0]
+
+      soundcloud_url = response.xpath("//iframe/@src").extract()[0]
+      song['soundcloud_url'] = re.sub('auto_play=false', 'auto_play=true', soundcloud_url)
 
       love_divs = response.xpath("//div[@class='post-love']/p")
       if love_divs:
@@ -38,4 +41,5 @@ class SongsSpider(Spider):
 
       song['page_title'] = response.xpath("//header[@class='post-header']").xpath(".//h1/text()").extract()[0]
       song['posted_on'] = parser.parse(response.xpath("//head/meta[@property='article:published_time']/@content").extract()[0]).strftime("%Y-%m-%d %H:%M:%S")
+
       return song
